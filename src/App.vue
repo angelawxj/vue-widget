@@ -20,5 +20,7 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   color: #2c3e50;
   margin-top: 20px;
+  padding: 0;
+  margin:0;
 }
 </style>

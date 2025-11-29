@@ -1,6 +1,6 @@
 {
   "name": "wxj-widget",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "AI问答组件库",
   "main": "dist/wxj-widget.common.js",
   "module": "dist/wxj-widget.esm.js",

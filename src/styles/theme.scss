@@ -1,0 +1,153 @@
+// src/styles/theme.scss
+
+// 主题变量
+:root {
+  // 浅色主题
+  --light-bg-primary: #ffffff;
+  --light-bg-secondary: #f8f9fa;
+  --light-bg-tertiary: #e9ecef;
+  --light-text-primary: #1a1a1a;
+  --light-text-secondary: #666666;
+  --light-text-tertiary: #999999;
+  --light-accent-primary: #1890ff;
+  --light-accent-secondary: #40a9ff;
+  --light-border-color: #e8e8e8;
+  --light-code-bg: #f6f8fa;
+  --light-code-border: #e1e4e8;
+  --light-user-bubble: #1890ff;
+  --light-ai-bubble: #f0f0f0;
+  --light-toolbar-bg: #fafafa;
+
+  // 深色主题
+  --dark-bg-primary: #1a1a1a;
+  --dark-bg-secondary: #2d2d2d;
+  --dark-bg-tertiary: #3d3d3d;
+  --dark-text-primary: #ffffff;
+  --dark-text-secondary: #cccccc;
+  --dark-text-tertiary: #999999;
+  --dark-accent-primary: #1890ff;
+  --dark-accent-secondary: #40a9ff;
+  --dark-border-color: #404040;
+  --dark-code-bg: #2d3748;
+  --dark-code-border: #4a5568;
+  --dark-user-bubble: #1890ff;
+  --dark-ai-bubble: #2d2d2d;
+  --dark-toolbar-bg: #2d2d2d;
+}
+
+// 主题混入
+@mixin light-theme {
+  --bg-primary: var(--light-bg-primary);
+  --bg-secondary: var(--light-bg-secondary);
+  --bg-tertiary: var(--light-bg-tertiary);
+  --text-primary: var(--light-text-primary);
+  --text-secondary: var(--light-text-secondary);
+  --text-tertiary: var(--light-text-tertiary);
+  --accent-primary: var(--light-accent-primary);
+  --accent-secondary: var(--light-accent-secondary);
+  --border-color: var(--light-border-color);
+  --code-bg: var(--light-code-bg);
+  --code-border: var(--light-code-border);
+  --user-bubble: var(--light-user-bubble);
+  --ai-bubble: var(--light-ai-bubble);
+  --toolbar-bg: var(--light-toolbar-bg);
+}
+
+@mixin dark-theme {
+  --bg-primary: var(--dark-bg-primary);
+  --bg-secondary: var(--dark-bg-secondary);
+  --bg-tertiary: var(--dark-bg-tertiary);
+  --text-primary: var(--dark-text-primary);
+  --text-secondary: var(--dark-text-secondary);
+  --text-tertiary: var(--dark-text-tertiary);
+  --accent-primary: var(--dark-accent-primary);
+  --accent-secondary: var(--dark-accent-secondary);
+  --border-color: var(--dark-border-color);
+  --code-bg: var(--dark-code-bg);
+  --code-border: var(--dark-code-border);
+  --user-bubble: var(--dark-user-bubble);
+  --ai-bubble: var(--dark-ai-bubble);
+  --toolbar-bg: var(--dark-toolbar-bg);
+}
+
+// 通用样式
+.chat-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  transition: all 0.3s ease;
+}
+
+// 动画
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes blink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0;
+  }
+}
+
+@keyframes bounce {
+  0%, 80%, 100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes typing {
+  0%, 80%, 100% { 
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  40% { 
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+// 滚动条样式
+@mixin scrollbar {
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: var(--text-tertiary);
+  }
+}
+
+// 响应式设计
+@mixin mobile {
+  @media (max-width: 768px) {
+    @content;
+  }
+}
