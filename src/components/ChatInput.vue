@@ -14,14 +14,14 @@
           class="message-input"
           ref="messageInput"
         ></textarea>
-        <button 
+        <button
           class="send-button"
           @click="handleSend"
           :disabled="!modelValue.trim() || isLoading"
           :title="modelValue.trim() ? '发送消息' : '请输入消息'"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" v-if="!isLoading">
-            <path d="M2 21L23 12L2 3V10L17 12L2 14V21Z" fill="currentColor"/>
+            <path d="M2 21L23 12L2 3V10L17 12L2 14V21Z" fill="currentColor" />
           </svg>
           <div class="loading-spinner" v-else></div>
         </button>
@@ -31,26 +31,34 @@
           <span>内容由 AI 生成，请仔细甄别</span>
         </div>
         <div class="footer-actions">
-          <button 
-            class="footer-action-btn" 
+          <button
+            class="footer-action-btn"
             :class="{ active: deepThinking }"
             @click="handleToggleDeepThinking"
             :title="deepThinking ? '关闭深度思考' : '开启深度思考'"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-              <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2Z" stroke="currentColor" stroke-width="2"/>
-              <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2"/>
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2Z"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+              <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2" />
             </svg>
             {{ deepThinking ? '88 深度思考' : '深度思考' }}
           </button>
-          <button 
+          <button
             class="footer-action-btn"
             :class="{ active: webSearch }"
             @click="handleToggleWebSearch"
             :title="webSearch ? '关闭联网搜索' : '开启联网搜索'"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-              <path d="M21 21L16.65 16.65M19 11C19 15.4183 15.4183 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11Z" stroke="currentColor" stroke-width="2"/>
+              <path
+                d="M21 21L16.65 16.65M19 11C19 15.4183 15.4183 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11Z"
+                stroke="currentColor"
+                stroke-width="2"
+              />
             </svg>
             {{ webSearch ? '联网搜索' : '联网搜索' }}
           </button>
@@ -66,25 +74,25 @@ export default {
   props: {
     modelValue: {
       type: String,
-      default: ''
+      default: '',
     },
     isLoading: {
       type: Boolean,
-      default: false
+      default: false,
     },
     deepThinking: {
       type: Boolean,
-      default: false
+      default: false,
     },
     webSearch: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   emits: ['update:modelValue', 'send-message', 'toggle-deep-thinking', 'toggle-web-search'],
   data() {
     return {
-      isFocused: false
+      isFocused: false,
     };
   },
   mounted() {
@@ -97,29 +105,29 @@ export default {
         textarea.addEventListener('input', this.autoResize);
       }
     },
-    
+
     autoResize(event) {
       const textarea = event.target;
       textarea.style.height = 'auto';
       textarea.style.height = textarea.scrollHeight + 'px';
     },
-    
+
     handleInput(event) {
       this.$emit('update:modelValue', event.target.value);
     },
-    
+
     handleSend() {
-      this.$emit('send-message',this.modelValue);
+      this.$emit('send-message', this.modelValue);
     },
-    
+
     handleToggleDeepThinking() {
       this.$emit('toggle-deep-thinking');
     },
-    
+
     handleToggleWebSearch() {
       this.$emit('toggle-web-search');
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -146,7 +154,7 @@ export default {
   border-radius: 12px;
   padding: 12px;
   transition: all 0.2s ease;
-
+  align-items: center;
   &.focused {
     border-color: var(--accent-primary);
     box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.1);
@@ -250,13 +258,13 @@ export default {
   .chat-input-container {
     padding: 16px;
   }
-  
+
   .input-footer {
     flex-direction: column;
     gap: 8px;
     align-items: flex-start;
   }
-  
+
   .footer-actions {
     align-self: flex-end;
   }

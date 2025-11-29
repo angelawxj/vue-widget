@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { aiResponses, getDefaultResponse, welcomeMessage } from '@/data/mockData';
+import { getDefaultResponse, welcomeMessage } from '@/data/mockData';
 import '@/styles/theme.scss';
 import ChatContent from './ChatContent.vue';
 import ChatInput from './ChatInput.vue';
@@ -146,7 +146,7 @@ export default {
       await this.delay(1000);
 
       const lastUserMessage = this.messages[this.messages.length - 2].content;
-      const response = aiResponses[lastUserMessage] || getDefaultResponse(lastUserMessage);
+      const response = getDefaultResponse(lastUserMessage);
 
       const messageIndex = this.messages.findIndex((msg) => msg.id === aiMessage.id);
       let accumulatedText = '';
