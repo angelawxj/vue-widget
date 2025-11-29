@@ -8,31 +8,29 @@
     </div>
     <div class="toolbar-right">
       <button class="toolbar-btn" @click="$emit('toggle-theme')" title="切换主题">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-          <path d="M12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16Z" stroke="currentColor" stroke-width="2"/>
-          <path d="M12 2V4" stroke="currentColor" stroke-width="2"/>
-          <path d="M12 20V22" stroke="currentColor" stroke-width="2"/>
-          <path d="M4.93 4.93L6.34 6.34" stroke="currentColor" stroke-width="2"/>
-          <path d="M17.66 17.66L19.07 19.07" stroke="currentColor" stroke-width="2"/>
-          <path d="M2 12H4" stroke="currentColor" stroke-width="2"/>
-          <path d="M20 12H22" stroke="currentColor" stroke-width="2"/>
-          <path d="M6.34 17.66L4.93 19.07" stroke="currentColor" stroke-width="2"/>
-          <path d="M19.07 4.93L17.66 6.34" stroke="currentColor" stroke-width="2"/>
-        </svg>
+        <img :src="themeToggleIcon" alt="切换主题" class="toolbar-icon" />
       </button>
       <button class="toolbar-btn" @click="$emit('clear-chat')" title="清空对话">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-          <path d="M3 6H5H21M5 6V20C5 20.5304 5.21071 21.0391 5.58579 21.4142C5.96086 21.7893 6.46957 22 7 22H17C17.5304 22 18.0391 21.7893 18.4142 21.4142C18.7893 21.0391 19 20.5304 19 20V6M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6" stroke="currentColor" stroke-width="2"/>
-        </svg>
+        <img :src="clearChatIcon" alt="清空对话" class="toolbar-icon" />
       </button>
     </div>
   </div>
 </template>
 
 <script>
+// 导入 SVG 图标
+import clearChatIcon from '@/assets/svg/clear-chat.svg';
+import themeToggleIcon from '@/assets/svg/theme-toggle.svg';
+
 export default {
   name: 'ChatToolbar',
-  emits: ['toggle-theme', 'clear-chat']
+  emits: ['toggle-theme', 'clear-chat'],
+  data() {
+    return {
+      themeToggleIcon,
+      clearChatIcon,
+    };
+  },
 };
 </script>
 
@@ -82,11 +80,16 @@ export default {
   color: var(--text-secondary);
   cursor: pointer;
   transition: all 0.2s ease;
-  
+
   &:hover {
     background: var(--bg-tertiary);
     color: var(--text-primary);
   }
+}
+
+.toolbar-icon {
+  width: 16px;
+  height: 16px;
 }
 
 @include mobile {

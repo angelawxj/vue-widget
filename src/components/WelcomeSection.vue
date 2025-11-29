@@ -2,11 +2,7 @@
   <div class="welcome-section">
     <div class="welcome-avatar">
       <div class="avatar-circle">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
-          <circle cx="12" cy="9" r="3" fill="currentColor"/>
-          <path d="M7 19.6C7.8 18.1 9.8 17 12 17s4.2 1.1 5 1.6" stroke="currentColor" stroke-width="2"/>
-        </svg>
+        <img :src="welcomeAiIcon" alt="AI 助手" class="welcome-icon" />
       </div>
     </div>
     <div class="welcome-text">
@@ -14,8 +10,8 @@
       <p>很高兴为您服务！我可以帮您解答问题、编写代码、分析问题等</p>
     </div>
     <div class="quick-questions">
-      <div 
-        v-for="(question, index) in quickQuestions" 
+      <div
+        v-for="(question, index) in quickQuestions"
         :key="index"
         class="quick-question"
         @click="handleQuestionClick(question)"
@@ -28,20 +24,23 @@
 
 <script>
 import { quickQuestions } from '@/data/mockData';
+// 导入 SVG 图标
+import welcomeAiIcon from '@/assets/svg/welcome-ai.svg';
 
 export default {
   name: 'WelcomeSection',
   emits: ['select-quick-question'],
   data() {
     return {
-      quickQuestions
+      quickQuestions,
+      welcomeAiIcon,
     };
   },
   methods: {
     handleQuestionClick(question) {
       this.$emit('select-quick-question', question.prompt);
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -69,6 +68,11 @@ export default {
   justify-content: center;
   margin: 0 auto;
   color: white;
+}
+
+.welcome-icon {
+  width: 32px;
+  height: 32px;
 }
 
 .welcome-text {
@@ -117,7 +121,7 @@ export default {
   .welcome-section {
     padding: 20px 0;
   }
-  
+
   .quick-questions {
     grid-template-columns: 1fr;
   }

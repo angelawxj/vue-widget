@@ -20,9 +20,7 @@
           :disabled="!modelValue.trim() || isLoading"
           :title="modelValue.trim() ? '发送消息' : '请输入消息'"
         >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" v-if="!isLoading">
-            <path d="M2 21L23 12L2 3V10L17 12L2 14V21Z" fill="currentColor" />
-          </svg>
+          <img :src="sendIcon" alt="发送" class="send-icon" v-if="!isLoading" />
           <div class="loading-spinner" v-else></div>
         </button>
       </div>
@@ -37,14 +35,7 @@
             @click="handleToggleDeepThinking"
             :title="deepThinking ? '关闭深度思考' : '开启深度思考'"
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2Z"
-                stroke="currentColor"
-                stroke-width="2"
-              />
-              <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2" />
-            </svg>
+            <img :src="deepThinkingIcon" alt="深度思考" class="action-icon" />
             {{ deepThinking ? '88 深度思考' : '深度思考' }}
           </button>
           <button
@@ -53,13 +44,7 @@
             @click="handleToggleWebSearch"
             :title="webSearch ? '关闭联网搜索' : '开启联网搜索'"
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M21 21L16.65 16.65M19 11C19 15.4183 15.4183 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11Z"
-                stroke="currentColor"
-                stroke-width="2"
-              />
-            </svg>
+            <img :src="webSearchIcon" alt="联网搜索" class="action-icon" />
             {{ webSearch ? '联网搜索' : '联网搜索' }}
           </button>
         </div>
@@ -69,6 +54,11 @@
 </template>
 
 <script>
+// 导入 SVG 图标
+import deepThinkingIcon from '@/assets/svg/deep-thinking.svg';
+import sendIcon from '@/assets/svg/send.svg';
+import webSearchIcon from '@/assets/svg/web-search.svg';
+
 export default {
   name: 'ChatInput',
   props: {
@@ -93,6 +83,9 @@ export default {
   data() {
     return {
       isFocused: false,
+      sendIcon,
+      deepThinkingIcon,
+      webSearchIcon,
     };
   },
   mounted() {
@@ -208,6 +201,17 @@ export default {
   }
 }
 
+.send-icon {
+  width: 18px;
+  height: 18px;
+  fill: #fff;
+}
+
+.action-icon {
+  width: 14px;
+  height: 14px;
+}
+
 .loading-spinner {
   width: 16px;
   height: 16px;
@@ -251,6 +255,15 @@ export default {
   &.active {
     background: var(--accent-primary);
     color: white;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
 
