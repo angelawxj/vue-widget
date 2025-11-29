@@ -1,12 +1,12 @@
 <template>
   <div class="deepseek-chat" :class="currentTheme">
-    <ChatToolbar 
+    <ChatToolbar
       :current-theme="currentTheme"
       @toggle-theme="toggleTheme"
       @clear-chat="clearChat"
     />
-    
-    <ChatContent 
+
+    <ChatContent
       :messages="messages"
       :is-loading="isLoading"
       @select-quick-question="selectQuickQuestion"
@@ -14,8 +14,8 @@
       @regenerate-response="regenerateResponse"
       @insert-code="handleInsertCode"
     />
-    
-    <ChatInput 
+
+    <ChatInput
       v-model="userInput"
       :is-loading="isLoading"
       :deep-thinking="deepThinking"
@@ -28,25 +28,25 @@
 </template>
 
 <script>
-import ChatToolbar from './ChatToolbar.vue';
-import ChatContent from './ChatContent.vue';
-import ChatInput from './ChatInput.vue';
 import { aiResponses, getDefaultResponse, welcomeMessage } from '@/data/mockData';
 import '@/styles/theme.scss';
+import ChatContent from './ChatContent.vue';
+import ChatInput from './ChatInput.vue';
+import ChatToolbar from './ChatToolbar.vue';
 
 export default {
   name: 'ChatWidget',
   components: {
     ChatToolbar,
     ChatContent,
-    ChatInput
+    ChatInput,
   },
   props: {
     theme: {
       type: String,
       default: 'light',
-      validator: (value) => ['light', 'dark'].includes(value)
-    }
+      validator: (value) => ['light', 'dark'].includes(value),
+    },
   },
   data() {
     return {
@@ -58,7 +58,7 @@ export default {
       currentTheme: 'light',
       modelValue: '',
       deepThinking: false,
-      webSearch: false
+      webSearch: false,
     };
   },
   mounted() {
@@ -71,7 +71,7 @@ export default {
       if (newTheme === 'light' || newTheme === 'dark') {
         this.currentTheme = newTheme;
       }
-    }
+    },
   },
   methods: {
     async initializeMarkdown() {
@@ -81,31 +81,31 @@ export default {
           html: true,
           linkify: true,
           typographer: true,
-          breaks: true
+          breaks: true,
         });
       } catch (error) {
         console.warn('Markdown初始化失败:', error);
         this.markdownIt = {
-          render: (text) => text.replace(/\n/g, '<br>')
+          render: (text) => text.replace(/\n/g, '<br>'),
         };
       }
     },
 
-// ChatWidget.vue 中的 addWelcomeMessage 方法
-addWelcomeMessage() {
-  // 确保 welcomeMessage 正确导入
-  console.log('welcomeMessage:', welcomeMessage); // 添加调试
-  
-  if (welcomeMessage && welcomeMessage.content) {
-    this.messages.push({
-      id: this.messageIdCounter++,
-      type: 'ai',
-      content: welcomeMessage.content,
-      htmlContent: welcomeMessage.content, // 直接使用 content，因为还没有 markdown 渲染
-      time: new Date()
-    });
-  } 
-},
+    // ChatWidget.vue 中的 addWelcomeMessage 方法
+    addWelcomeMessage() {
+      // 确保 welcomeMessage 正确导入
+      console.log('welcomeMessage:', welcomeMessage); // 添加调试
+
+      if (welcomeMessage && welcomeMessage.content) {
+        this.messages.push({
+          id: this.messageIdCounter++,
+          type: 'ai',
+          content: welcomeMessage.content,
+          htmlContent: welcomeMessage.content, // 直接使用 content，因为还没有 markdown 渲染
+          time: new Date(),
+        });
+      }
+    },
 
     selectQuickQuestion(question) {
       this.userInput = question;
@@ -120,7 +120,7 @@ addWelcomeMessage() {
         id: this.messageIdCounter++,
         type: 'user',
         content: question,
-        time: new Date()
+        time: new Date(),
       };
       this.messages.push(userMessage);
 
@@ -128,7 +128,7 @@ addWelcomeMessage() {
       this.isLoading = true;
 
       await this.simulateAIResponse();
-      
+
       this.isLoading = false;
     },
 
@@ -139,7 +139,7 @@ addWelcomeMessage() {
         content: '',
         htmlContent: '',
         isStreaming: true,
-        time: new Date()
+        time: new Date(),
       };
       this.messages.push(aiMessage);
 
@@ -148,14 +148,14 @@ addWelcomeMessage() {
       const lastUserMessage = this.messages[this.messages.length - 2].content;
       const response = aiResponses[lastUserMessage] || getDefaultResponse(lastUserMessage);
 
-      const messageIndex = this.messages.findIndex(msg => msg.id === aiMessage.id);
+      const messageIndex = this.messages.findIndex((msg) => msg.id === aiMessage.id);
       let accumulatedText = '';
       const words = response.split('');
-      
+
       for (let i = 0; i < words.length; i++) {
         await this.delay(30 + Math.random() * 20);
         accumulatedText += words[i];
-        
+
         this.messages[messageIndex].content = accumulatedText;
         if (this.markdownIt) {
           try {
@@ -164,7 +164,7 @@ addWelcomeMessage() {
             this.messages[messageIndex].htmlContent = accumulatedText.replace(/\n/g, '<br>');
           }
         }
-        
+
         if (i % 10 === 0) {
           this.$nextTick(() => {
             this.scrollToBottom();
@@ -177,22 +177,25 @@ addWelcomeMessage() {
     },
 
     copyMessage(content) {
-      navigator.clipboard.writeText(content).then(() => {
-        this.$message.success('已复制到剪贴板');
-      }).catch(() => {
-        // 降级方案
-        const textarea = document.createElement('textarea');
-        textarea.value = content;
-        document.body.appendChild(textarea);
-        textarea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textarea);
-        this.$message.success('已复制到剪贴板');
-      });
+      navigator.clipboard
+        .writeText(content)
+        .then(() => {
+          this.$message.success('已复制到剪贴板');
+        })
+        .catch(() => {
+          // 降级方案
+          const textarea = document.createElement('textarea');
+          textarea.value = content;
+          document.body.appendChild(textarea);
+          textarea.select();
+          document.execCommand('copy');
+          document.body.removeChild(textarea);
+          this.$message.success('已复制到剪贴板');
+        });
     },
 
     regenerateResponse(messageId) {
-      const messageIndex = this.messages.findIndex(msg => msg.id === messageId);
+      const messageIndex = this.messages.findIndex((msg) => msg.id === messageId);
       if (messageIndex > 0) {
         const userMessage = this.messages[messageIndex - 1];
         this.messages.splice(messageIndex, 1);
@@ -225,7 +228,7 @@ addWelcomeMessage() {
     },
 
     delay(ms) {
-      return new Promise(resolve => setTimeout(resolve, ms));
+      return new Promise((resolve) => setTimeout(resolve, ms));
     },
 
     scrollToBottom() {
@@ -262,17 +265,17 @@ addWelcomeMessage() {
           type: 'ai',
           content: `插入的代码：\n\n\`\`\`\n${code}\n\`\`\``,
           htmlContent: '',
-          time: new Date()
+          time: new Date(),
         };
-        
+
         if (this.markdownIt) {
           codeMessage.htmlContent = this.markdownIt.render(codeMessage.content);
         }
-        
+
         this.messages.push(codeMessage);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -281,11 +284,11 @@ addWelcomeMessage() {
 
 .deepseek-chat {
   @extend .chat-container;
-  
+
   &.light {
     @include light-theme;
   }
-  
+
   &.dark {
     @include dark-theme;
   }
