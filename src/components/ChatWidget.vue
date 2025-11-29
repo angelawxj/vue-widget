@@ -10,6 +10,7 @@
       :messages="messages"
       :is-loading="isLoading"
       @select-quick-question="selectQuickQuestion"
+      @copy-code="insertCode"
       @copy-message="copyMessage"
       @regenerate-response="regenerateResponse"
       @insert-code="handleInsertCode"
@@ -153,6 +154,23 @@ export default {
       this.$nextTick(() => {
         this.scrollToBottom();
       });
+    },
+    copyCode(code) {
+      navigator.clipboard
+        .writeText(code)
+        .then(() => {
+          this.$message.success('代码已复制到剪贴板');
+        })
+        .catch(() => {
+          // 降级方案
+          const textarea = document.createElement('textarea');
+          textarea.value = code;
+          document.body.appendChild(textarea);
+          textarea.select();
+          document.execCommand('copy');
+          document.body.removeChild(textarea);
+          this.$message.success('代码已复制到剪贴板');
+        });
     },
     copyMessage(content) {
       navigator.clipboard

@@ -211,9 +211,10 @@ export default {
     async handleCopyCode(code, button) {
       try {
         await navigator.clipboard.writeText(code);
-
+        this.$emit('copy-code', code);
         // 复制成功反馈
         const originalHTML = button.innerHTML;
+
         button.innerHTML = `
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
             <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
@@ -333,12 +334,13 @@ export default {
 // DeepSeek风格的代码块样式
 .ai-message .text-content {
   :deep(.code-block-wrapper) {
-    margin: 16px 0;
     border-radius: 12px;
     overflow: hidden;
     border: 1px solid var(--code-border, #e5e7eb);
     background: var(--code-bg, #f8f9fa);
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
   }
 
   :deep(.code-header) {
@@ -360,10 +362,8 @@ export default {
     font-size: 13px;
     text-transform: none;
     letter-spacing: 0;
-    background: var(--code-language-bg, #e5e7eb);
     padding: 4px 8px;
     border-radius: 6px;
-    border: 1px solid var(--code-language-border, #d1d5db);
   }
 
   :deep(.code-actions) {
@@ -405,16 +405,15 @@ export default {
 
   :deep(.code-content) {
     background: var(--code-content-bg, #ffffff);
+    padding: 10px;
+    display: flex;
   }
 
   :deep(pre) {
     margin: 0;
-    padding: 20px;
-    background: var(--code-content-bg, #ffffff);
     overflow-x: auto;
     font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
     font-size: 14px;
-    line-height: 1.5;
     color: var(--text-primary, #1f2937);
 
     &::-webkit-scrollbar {

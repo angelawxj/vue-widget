@@ -1,13 +1,14 @@
 <template>
   <div class="chat-content" ref="messagesContainer">
-    <WelcomeSection 
+    <WelcomeSection
       v-if="messages.length === 0"
       @select-quick-question="$emit('select-quick-question', $event)"
     />
-    
-    <MessagesList 
+
+    <MessagesList
       :messages="messages"
       :is-loading="isLoading"
+      @copy-code="$emit('copy-code', $event)"
       @copy-message="$emit('copy-message', $event)"
       @regenerate-response="$emit('regenerate-response', $event)"
       @insert-code="$emit('insert-code', $event)"
@@ -23,17 +24,17 @@ export default {
   name: 'ChatContent',
   components: {
     WelcomeSection,
-    MessagesList
+    MessagesList,
   },
   props: {
     messages: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     isLoading: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   emits: ['select-quick-question', 'copy-message', 'regenerate-response', 'insert-code'],
   mounted() {
@@ -46,8 +47,8 @@ export default {
           this.scrollToBottom();
         });
       },
-      deep: true
-    }
+      deep: true,
+    },
   },
   methods: {
     scrollToBottom() {
@@ -55,8 +56,8 @@ export default {
       if (container) {
         container.scrollTop = container.scrollHeight;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
