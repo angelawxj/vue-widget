@@ -142,40 +142,18 @@ export default {
         time: new Date(),
       };
       this.messages.push(aiMessage);
-
       await this.delay(1000);
-
       const lastUserMessage = this.messages[this.messages.length - 2].content;
       const response = getDefaultResponse(lastUserMessage);
-
       const messageIndex = this.messages.findIndex((msg) => msg.id === aiMessage.id);
-      let accumulatedText = '';
-      const words = response.split('');
 
-      for (let i = 0; i < words.length; i++) {
-        await this.delay(10 + Math.random() * 10);
-        accumulatedText += words[i];
-
-        this.messages[messageIndex].content = accumulatedText;
-        if (this.markdownIt) {
-          try {
-            this.messages[messageIndex].htmlContent = this.markdownIt.render(accumulatedText);
-          } catch (error) {
-            this.messages[messageIndex].htmlContent = accumulatedText.replace(/\n/g, '<br>');
-          }
-        }
-
-        if (i % 10 === 0) {
-          this.$nextTick(() => {
-            this.scrollToBottom();
-          });
-        }
-      }
-
+      // 直接设置完整的响应内容
+      this.messages[messageIndex].content = response;
       this.messages[messageIndex].isStreaming = false;
-      this.scrollToBottom();
+      this.$nextTick(() => {
+        this.scrollToBottom();
+      });
     },
-
     copyMessage(content) {
       navigator.clipboard
         .writeText(content)
