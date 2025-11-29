@@ -1,17 +1,15 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from 'vue';
+import Vuex from 'vuex';
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-  },
-  getters: {
+    theme: 'light',
   },
   mutations: {
+    setTheme(state, theme) {
+      state.theme = theme;
+    },
   },
-  actions: {
-  },
-  modules: {
-  }
-})
+});
