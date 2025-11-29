@@ -153,7 +153,7 @@ export default {
       const words = response.split('');
 
       for (let i = 0; i < words.length; i++) {
-        await this.delay(30 + Math.random() * 20);
+        await this.delay(10 + Math.random() * 10);
         accumulatedText += words[i];
 
         this.messages[messageIndex].content = accumulatedText;

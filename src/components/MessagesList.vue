@@ -49,22 +49,6 @@
         </div>
       </div>
     </div>
-
-    <!-- 全局加载状态（当没有具体的AI消息时显示） -->
-    <div v-if="isLoading && !hasStreamingMessage" class="loading-message">
-      <div class="message-avatar ai-avatar">
-        <img :src="aiIcon" alt="AI" class="icon-img" />
-      </div>
-      <div class="message-content">
-        <div class="text-content loading-content">
-          <div class="typing-indicator">
-            <span class="dot"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
